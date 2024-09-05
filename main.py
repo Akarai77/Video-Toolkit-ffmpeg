@@ -17,8 +17,11 @@ while True:
         continue
     match choice:
         case 1 : 
-            ytconvert()
-            
+            msg,output = ytconvert()
+            if msg != -1 and output != -1:
+                success(f"{msg}{output}") 
+            else:
+                continue
         case 2 : 
             handle_convert()
             

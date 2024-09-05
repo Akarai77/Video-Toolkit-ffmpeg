@@ -8,7 +8,9 @@ from IO_functions import manageOutput
 def ytconvert():
     while True:
         try:
-            url = input("\nPaste the YouTube Video URL: ")
+            url = input("\nPaste the YouTube Video URL (0 to exit): ")
+            if url == '0':
+                return -1,-1
             ydl_opts = {}
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(url, download=False)
@@ -91,14 +93,14 @@ def ytconvert():
 
                         if ch == 2:
                             audio_output_path = os.path.splitext(output_template)[0] + '.' + sub_options_values_list[ch2-1]
-                            success(f"Audio downloaded and converted to {audio_output_path}")
-                            return
+                            return "Audio downloaded and converted to",audio_output_path
                         else:
-                            success(f"Video downloaded to {output_template}")
-                            return
+                            return "Video downloaded to",output_template
 
                     except ffmpeg.Error as e:
                         error(f"FFmpeg Error: {str(e)}")
+                        return -1,-1
                     except Exception as e:
                         error(f"An error occurred: {e}")
+                        return -1,-1
                     break
