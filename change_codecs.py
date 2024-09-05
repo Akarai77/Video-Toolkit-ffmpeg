@@ -70,12 +70,10 @@ def change_codecs():
         error("An Error Occured!")
         return
     
-    # Display current codecs
     success(f"Current Video Codec: {cds[0]}",end="")
     if len(cds) > 1:
         success(f"Current Audio Codec: {cds[1]}")
     
-    # Determine options
     options = ['Change Video Codec', 'Change Audio Codec','Change Both'] if type == 'Video' else ['Change Audio Codec']
     
     while True:
@@ -84,7 +82,6 @@ def change_codecs():
             return
         elif ch == -1:
             continue
-            # Define codec dictionaries
         video_codecs = {
             'H.263': 'h263',
             'H.264': 'libx264',
@@ -167,50 +164,3 @@ def change_codecs():
                     else:
                         return
                     
-            
-        #     while True:
-        #         ch2 = menu('Select the Resultant Video Codec:', codec_list)
-        #         if ch2 == len(codec_list) + 1:
-        #             break
-        #         elif ch2 == -1:
-        #             continue
-        #         else:
-        #             selected_codec = codec_values[ch2 - 1]
-        #             output_file_dir,output_file = manageOutput()
-        #             output_file_path = os.path.join(output_file_dir,output_file+os.path.splitext(vid)[1])
-        #             try:
-        #                 ffmpeg.input(vid).output(output_file_path, vcodec=selected_codec).run()
-        #                 print(f"\t\tVideo Codec of {vid} has been successfully converted to {selected_codec}\n")
-        #             except ffmpeg.Error as e:
-        #                 print(f"\nFFmpeg Error: {str(e)}\n")
-        #                 if e.stderr:
-        #                     print(f"\nERROR DETAILS: {e.stderr.decode('utf-8')}\n")
-        #             except Exception as e:
-        #                 print(f"\nUnexpected Error: {str(e)}\n")
-        #             break
-
-        # elif (ch == 2 and len(cds) == 2) or (ch == 1 and len(cds) == 1):  # Audio Codec change
-        #     codec_list = list(audio_codecs.keys())
-        #     codec_values = list(audio_codecs.values())
-        #     while True:
-        #         ch2 = menu('Select the Resultant Audio Codec:', codec_list)
-        #         if ch2 == len(codec_list) + 1:
-        #             break
-        #         elif ch2 == -1:
-        #             continue
-        #         else:
-        #             selected_codec = codec_values[ch2 - 1]
-        #             output_file_dir,output_file = manageOutput()
-        #             output_file_path = os.path.join(output_file_dir,output_file+os.path.splitext(vid)[1])
-        #             try:
-        #                 ffmpeg.input(vid).output(output_file_path, acodec=selected_codec).run()
-        #                 print(f"\t\tAudio Codec of {vid} has been successfully converted to {selected_codec}\n")
-        #             except ffmpeg.Error as e:
-        #                 print(f"\nFFmpeg Error: {str(e)}\n")
-        #                 if e.stderr:
-        #                     print(f"\nERROR DETAILS: {e.stderr.decode('utf-8')}\n")
-        #             except Exception as e:
-        #                 print(f"\nUnexpected Error: {str(e)}\n")
-        #             break
-                    
-change_codecs()
