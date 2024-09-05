@@ -53,6 +53,8 @@ def ytconvert():
                 else:
                     try:
                         output_dir, output_file = manageOutput()
+                        if output_dir == -1 and output_file == -1:
+                            continue
                         output_template = os.path.join(output_dir, f"{output_file}.%(ext)s")
 
                         if ch == 1:  # Video
@@ -96,11 +98,6 @@ def ytconvert():
                             return "Audio downloaded and converted to",audio_output_path
                         else:
                             return "Video downloaded to",output_template
-
-                    except ffmpeg.Error as e:
-                        error(f"FFmpeg Error: {str(e)}")
-                        return -1,-1
                     except Exception as e:
                         error(f"An error occurred: {e}")
                         return -1,-1
-                    break

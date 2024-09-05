@@ -5,9 +5,9 @@ from get_codecs import get_codecs
 from colorPrint import *
 from menu import menu
 from change_codecs import change_codecs
-        
+from clips import handle_clips
 
-options = ['YT Video Conversion','Convert','Extract','Get Audio and Video Codecs','Change Audio and video codecs']
+options = ['YT Video Conversion','Convert','Extract','Get Audio and Video Codecs','Change Audio and video codecs','Turn Video into Clips']
 
 while True:
     choice = menu(f"\t\tWELCOME!\n{'-'*50}\nWhat would you like to do today?",options)
@@ -41,7 +41,10 @@ while True:
         case 5:
             change_codecs()
         
-        case 6 : 
+        case 6:
+            handle_clips()
+        
+        case 7 : 
             exit()
             
         case default: 

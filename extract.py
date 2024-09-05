@@ -10,9 +10,9 @@ def extract(ch,input_dir,input_file,output_dir,output_file):
     print(output_path)
     try:
         if ch == 2:
-            ffmpeg.input(input_path[0]).output(output_path,an=None).run()
+            ffmpeg.input(input_path[0]).output(output_path,an=None,vcodec='h264_nvenc',preset='fast', video_bitrate='1M').run()
         else:
-            ffmpeg.input(input_path[0]).output(output_path,vcodec='copy').run()
+            ffmpeg.input(input_path[0]).output(output_path,vcodec='copy',preset='fast', video_bitrate='1M').run()
         success(f"\t\t{input_file[0]} has been successfully converted to {output_file}")
         return
     except ffmpeg.Error as e:

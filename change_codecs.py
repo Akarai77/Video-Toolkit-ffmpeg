@@ -15,7 +15,7 @@ def change_video_codec(file,cvc,choice,codec_values):
         return -1
     output_file_path = os.path.join(output_file_dir,output_file+os.path.splitext(file)[1])
     try:
-        ffmpeg.input(file).output(output_file_path, vcodec=selected_codec).run()
+        ffmpeg.input(file).output(output_file_path, vcodec=selected_codec,preset='fast', video_bitrate='1M').run()
         print(f"\t\tVideo Codec of {file} has been successfully converted from {cvc} to {selected_codec}\n")
     except ffmpeg.Error as e:
         print(f"\nFFmpeg Error: {str(e)}\n")
@@ -32,7 +32,7 @@ def change_audio_codec(file,cac,choice,codec_values):
         return -1
     output_file_path = os.path.join(output_file_dir,output_file+os.path.splitext(file)[1])
     try:
-        ffmpeg.input(file).output(output_file_path, acodec=selected_codec).run()
+        ffmpeg.input(file).output(output_file_path, acodec=selected_codec,preset='fast').run()
         print(f"\t\tVideo Codec of {file} has been successfully converted from {cac} to {selected_codec}\n")
     except ffmpeg.Error as e:
         print(f"\nFFmpeg Error: {str(e)}\n")
@@ -49,7 +49,7 @@ def change_both(file,cds,choice1,video_codec_values,choice2,audio_codec_values):
         return -1
     output_file_path = os.path.join(output_file_dir,output_file+os.path.splitext(file)[1])
     try:
-        ffmpeg.input(file).output(output_file_path, vcodec=selected_video_codec,acodec=selected_audio_codec).run()
+        ffmpeg.input(file).output(output_file_path, vcodec=selected_video_codec,acodec=selected_audio_codec,preset='fast', video_bitrate='1M').run()
         print(f"\t\tVideo Codec and Audio Codec of {file} has been successfully converted from {cds[0]} and {cds[1]} to {selected_video_codec} and {selected_audio_codec} respectively\n")
     except ffmpeg.Error as e:
         print(f"\nFFmpeg Error: {str(e)}\n")

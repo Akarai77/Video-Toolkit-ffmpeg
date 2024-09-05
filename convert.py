@@ -13,9 +13,9 @@ def convert(input_dir,input_file,output_dir,output_file):
         if len(input_path) > 1:
             input_streams = [ffmpeg.input(f) for f in input_path]
             stream = ffmpeg.concat(*input_streams)
-            stream = stream.output(output_path)
+            stream = stream.output(output_path,vcodec='h264_nvenc',preset='fast', video_bitrate='1M')
         else:
-            stream = ffmpeg.input(input_path[0]).output(output_path)
+            stream = ffmpeg.input(input_path[0]).output(output_path,vcodec='h264_nvenc',preset='fast', video_bitrate='1M')
 
         stream.run()
         success(f"\t\t{input_file[0]} has been successfully converted to {output_file}")

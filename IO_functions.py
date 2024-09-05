@@ -45,14 +45,16 @@ def manageOutput():
             elif ch2 == len(choices) + 1:
                 return -1,-1
             else:
-                if os.path.isdir(dir):
-                    dir = os.path.join(dir, choices[ch2 - 1])
-                else:
+                dir = os.path.join(dir, choices[ch2 - 1])
+                if not os.path.isdir(dir):
                     error("NOT A DIRECTORY!")
+                    dir = os.path.join(dir, '../')
                     continue
         
         while True:
-            new_name = input("Enter new output file name: ")
+            new_name = input("Enter new output file name (0 to exit): ")
+            if new_name == '0':
+                break
             pattern = r'^[a-zA-Z0-9_\-()]+$'
             if re.match(pattern, new_name) is not None:
                 return new_dir,new_name
