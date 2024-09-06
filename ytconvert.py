@@ -5,6 +5,53 @@ from menu import menu
 from colorPrint import *
 from IO_functions import manageOutput
 
+
+def get_available_resolutions(url):
+    ydl_opts = {}
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info_dict = ydl.extract_info(url, download=False)
+        formats = info_dict.get('formats', [])
+        resolutions = {}
+        index = 1
+        for f in formats:
+            if f.get('vcodec') != 'none':
+                filesize = f.get('filesize')
+                if filesize:
+                    filesize = f"{round(filesize / (1024 * 1024), 2)} MB"
+                else:
+                    filesize = "Unknown"
+
+                resolutions[index] = {
+                    'format_id': f['format_id'],
+                    'resolution': f['resolution'],
+                    'ext': f['ext'],
+                    'filesize': filesize,
+                    'vcodec': f['vcodec']
+                }
+                index += 1
+                
+        print("Available resolutions:")
+        print(f"{'NO':<5}{'RESOLUTION':<15}{'EXTENSION':<15}{'FILE SIZE':<20}{'VCODEC'}")
+        for res, res2 in resolutions.items():
+            print(f"{str(res):<6}{res2['resolution']:<17}{res2['ext']:<13}{res2['filesize']:<15}{res2['vcodec']}")
+        print(f"{len(resolutions)+1}    EXIT")
+        try:
+            ch = int(input("Select a Resolution: "))
+        except ValueError:
+            error("INVALID INPUT! ONLY ENTER NUMBERS!")
+        if ch == len(resolutions)+1:
+            return -1
+        elif ch < 1 and ch > len(resolutions)+1:
+            error("INVLAID!")
+        else:
+            if ch in resolutions:
+                return resolutions[ch]['format_id']
+            else:
+                error("INVALID!")
+                
+
+
+
 def ytconvert():
     while True:
         try:
@@ -57,7 +104,10 @@ def ytconvert():
                             continue
                         output_template = os.path.join(output_dir, f"{output_file}.%(ext)s")
 
-                        if ch == 1:  # Video
+                        if ch == 1:
+                            formatid = get_available_resolutions(url)
+                            if formatid == -1:
+                                continue
                             while True:
                                 sub = input("Write Subtitles [y/n] ?: ").lower()
                                 if not (sub =='y' or sub == 'n'):
@@ -70,16 +120,16 @@ def ytconvert():
                                 break
                             
                             ydl_opts = {
-                                'format': 'bestvideo+bestaudio/best',
-                                'writeautomaticsub': True if sub == 'y' else False,  # Download automatically generated subtitles if no subtitles are available
-                                'writesubtitles': True if sub == 'y' else False,  # Downloads subtitles
-                                'subtitleslangs': ['en'] if sub == 'y' else [],  # Specifies the language for subtitles
-                                'subtitlesformat': 'srt' if sub == 'y' else '',  # Subtitle format
+                                'format': formatid,
+                                'writeautomaticsub': True if sub == 'y' else False,
+                                'writesubtitles': True if sub == 'y' else False,
+                                'subtitleslangs': ['en'] if sub == 'y' else [],
+                                'subtitlesformat': 'srt' if sub == 'y' else '',
                                 'writedescription': True if desc == 'y' else False,
                                 'outtmpl': output_template,
                                 'merge_output_format': sub_options_values_list[ch2-1]
                             }
-                        else:  # Audio
+                        else:
                             ydl_opts = {
                                 'format': 'bestaudio/best',
                                 'outtmpl': output_template,

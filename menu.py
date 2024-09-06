@@ -9,7 +9,7 @@ def menu(title,array):
     try:
         choice = int(input("\nEnter your choice: "))
     except ValueError:
-        error("INVALID INPUT! Please Enter A Number!")
+        error("INVALID INPUT! ONLY ENTER NUMBERS!")
         return -1
     
     if choice < 1 or choice > len(array)+1:
