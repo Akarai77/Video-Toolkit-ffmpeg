@@ -1,10 +1,8 @@
 import os
 import yt_dlp
-import ffmpeg
 from menu import menu
 from colorPrint import *
 from IO_functions import manageOutput
-
 
 def get_available_resolutions(url):
     ydl_opts = {}
@@ -24,17 +22,16 @@ def get_available_resolutions(url):
                 resolutions[index] = {
                     'format_id': f['format_id'],
                     'resolution': f['resolution'],
-                    'ext': f['ext'],
                     'filesize': filesize,
                     'vcodec': f['vcodec']
                 }
                 index += 1
                 
-        print("Available resolutions:")
-        print(f"{'NO':<5}{'RESOLUTION':<15}{'EXTENSION':<15}{'FILE SIZE':<20}{'VCODEC'}")
+        print("\nAvailable resolutions:\n")
+        print(f"\t{'NO':<5}{'RESOLUTION':<15}{'FILE SIZE':<20}{'VCODEC'}")
         for res, res2 in resolutions.items():
-            print(f"{str(res):<6}{res2['resolution']:<17}{res2['ext']:<13}{res2['filesize']:<15}{res2['vcodec']}")
-        print(f"{len(resolutions)+1}    EXIT")
+            print(f"\t{str(res):<6}{res2['resolution']:<15}{res2['filesize']:<15}{res2['vcodec']}")
+        print(f"\t{len(resolutions)+1}    EXIT\n")
         try:
             ch = int(input("Select a Resolution: "))
         except ValueError:
@@ -72,7 +69,7 @@ def ytconvert():
         {
             'Convert to MP4': 'mp4',
             'Convert to MKV': 'mkv',
-            'Convert to WEBM': 'webm',
+            'Convert to WEBM': 'webm'
         },
         {
             'Convert to MP3': 'mp3',
@@ -85,7 +82,7 @@ def ytconvert():
     while True:
         ch = menu('Select an option', options)
         if ch == len(options) + 1:
-            return
+            return -1,-1
         elif ch == -1:
             continue
         else:
@@ -102,7 +99,7 @@ def ytconvert():
                         output_dir, output_file = manageOutput()
                         if output_dir == -1 and output_file == -1:
                             continue
-                        output_template = os.path.join(output_dir, f"{output_file}.%(ext)s")
+                        output_template = os.path.join(output_dir, f"{output_file}.{sub_options_values_list[ch2-1]}")
 
                         if ch == 1:
                             formatid = get_available_resolutions(url)
@@ -117,10 +114,11 @@ def ytconvert():
                                 if not (desc =='y' or desc == 'n'):
                                     error("INVALID!")
                                     continue
+                                success(f"VIDEO TITLE: {yt_title}")
                                 break
                             
                             ydl_opts = {
-                                'format': formatid,
+                                'format': f"{formatid}+bestaudio",
                                 'writeautomaticsub': True if sub == 'y' else False,
                                 'writesubtitles': True if sub == 'y' else False,
                                 'subtitleslangs': ['en'] if sub == 'y' else [],
@@ -144,10 +142,9 @@ def ytconvert():
                             ydl.download([url])
 
                         if ch == 2:
-                            audio_output_path = os.path.splitext(output_template)[0] + '.' + sub_options_values_list[ch2-1]
-                            return "Audio downloaded and converted to",audio_output_path
+                            return f"Audio of {yt_title} downloaded and converted to",output_template
                         else:
-                            return "Video downloaded to",output_template
+                            return f"{yt_title} downloaded to",output_template
                     except Exception as e:
                         error(f"An error occurred: {e}")
                         return -1,-1

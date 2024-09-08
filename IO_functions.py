@@ -32,7 +32,6 @@ def manageOutput():
             print(f"\nCurrent Directory: {os.path.abspath(dir)}",end="")
             choices = ["Select Directory"] + os.listdir(dir) + ["Previous Directory"]
             ch2 = menu("Select an output Directory:", choices)
-            
             if ch2 == 1:
                 if os.path.isdir(dir):
                     new_dir = os.path.abspath(dir)
@@ -59,7 +58,7 @@ def manageOutput():
             if re.match(pattern, new_name) is not None:
                 return new_dir,new_name
             else:
-                error("Invalid File Name!\nOnly use letters (a-z, A-Z), numbers (0-9), underscores (_), hyphens (-), and parentheses (()).")
+                error("Invalid File Name!\nOnly use letters (a-z, A-Z), numbers (0-9), underscores (_), hyphens (-), and parentheses (()).\n")
                 continue
 
 def getInput(type):
