@@ -2,9 +2,9 @@ import os
 import yt_dlp
 from menu import menu
 from colorPrint import *
-from IO_functions import manageOutput
+from IOFunctions import manageOutput
 
-def get_available_resolutions(url):
+def getAvailableResolutions(url):
     ydl_opts = {}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
@@ -49,7 +49,7 @@ def get_available_resolutions(url):
 
 
 
-def ytconvert():
+def ytConvert():
     while True:
         try:
             url = input("\nPaste the YouTube Video URL (0 to exit): ")
@@ -102,7 +102,7 @@ def ytconvert():
                         output_template = os.path.join(output_dir, f"{output_file}.{sub_options_values_list[ch2-1]}")
 
                         if ch == 1:
-                            formatid = get_available_resolutions(url)
+                            formatid = getAvailableResolutions(url)
                             if formatid == -1:
                                 continue
                             while True:

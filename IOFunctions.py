@@ -69,32 +69,39 @@ def getInput(type):
         dir = '.'
         while True:
             print(f"\nCurrent Directory: {os.path.abspath(dir)}",end="")
-            choices = [f"Search all {type} files"] + os.listdir(dir) + ["Previous Directory"]
-            ch = menu(f"Select an input {type} file", choices)
+            choices = [f"Select Directory"if type == 'Dir' else f"Search all {type} files"] + os.listdir(dir) + ["Previous Directory"]
+            ch = menu(f"Select an input Directory"if type=="Dir" else f"Select an input {type} file", choices)
             
             if ch == 1:
-                dir = os.path.abspath(os.path.join(dir,'.'))
-                file_list = getFiles(dir, getExtensions(type))
-                if not file_list:
-                    error(f"No {type} files found in {dir}")
-                    continue
-                try:
-                    while True:
-                            basename_list = [os.path.basename(file) for file in file_list]
-                            ch = menu(f"{type} Files in {dir}", basename_list)
-                            if ch == len(file_list) + 1:
-                                break
-                            elif ch == -1:
-                                continue
-                            else:
-                                file = basename_list[ch - 1]
-                                file_dir.append(os.path.dirname(file_list[ch - 1]))
-                                file_name.append(os.path.splitext(file)[0])
-                                file_format.append(os.path.splitext(file)[1])
-                                raise Exception
-                except Exception:
-                    break
-
+                if type == 'Dir':
+                    if os.path.isdir(dir):
+                        file_dir.append(os.path.abspath(dir))
+                        break
+                    else:
+                        error("NOT A DIRECTORY!")
+                        continue
+                else:
+                    dir = os.path.abspath(os.path.join(dir,'.'))
+                    file_list = getFiles(dir, getExtensions(type))
+                    if not file_list:
+                        error(f"No {type} files found in {dir}")
+                        continue
+                    try:
+                        while True:
+                                basename_list = [os.path.basename(file) for file in file_list]
+                                ch = menu(f"{type} Files in {dir}", basename_list)
+                                if ch == len(file_list) + 1:
+                                    break
+                                elif ch == -1:
+                                    continue
+                                else:
+                                    file = basename_list[ch - 1]
+                                    file_dir.append(os.path.dirname(file_list[ch - 1]))
+                                    file_name.append(os.path.splitext(file)[0])
+                                    file_format.append(os.path.splitext(file)[1])
+                                    raise Exception
+                    except Exception:
+                        break
             elif ch == len(choices):
                 dir = os.path.abspath(os.path.join(dir, '..'))
                 continue
@@ -103,21 +110,25 @@ def getInput(type):
             elif ch == -1:
                 continue
             else:
-                item = os.path.join(dir, choices[ch - 1])
-                if os.path.isfile(item):
-                    if os.path.splitext(item)[1] not in getExtensions(type):
-                        error(f"Not a {type} file")
-                        continue
-                    file = os.path.basename(item)
-                    file_dir.append(os.path.dirname(item))
-                    file_name.append(os.path.splitext(file)[0])
-                    file_format.append(os.path.splitext(file)[1])
-                    break
-                elif os.path.isdir(item):
-                    dir = item
+                if type == dir:
+                    error("NOT A DIRECTORY!")
                     continue
                 else:
-                    error("Not a valid choice!")
-                    continue
+                    item = os.path.join(dir, choices[ch - 1])
+                    if os.path.isfile(item):
+                        if os.path.splitext(item)[1] not in getExtensions(type):
+                            error(f"Not a {type} file")
+                            continue
+                        file = os.path.basename(item)
+                        file_dir.append(os.path.dirname(item))
+                        file_name.append(os.path.splitext(file)[0])
+                        file_format.append(os.path.splitext(file)[1])
+                        break
+                    elif os.path.isdir(item):
+                        dir = item
+                        continue
+                    else:
+                        error("Not a valid choice!")
+                        continue
     
     return file_dir,file_name,file_format

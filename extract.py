@@ -1,7 +1,7 @@
 import os
 import ffmpeg
 from menu import menu
-from IO_functions import getInput, manageOutput
+from IOFunctions import getInput, manageOutput
 from colorPrint import *
 
 def extract(ch,input_dir,input_file,output_dir,output_file):
@@ -25,7 +25,7 @@ def extract(ch,input_dir,input_file,output_dir,output_file):
         return
     
 
-def handle_extract():
+def handleExtract():
     options = {
         'Extract Audio from Video': 'Video',
         'Extract Video without Audio': 'Video',

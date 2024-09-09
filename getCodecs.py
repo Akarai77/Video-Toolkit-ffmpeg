@@ -1,10 +1,10 @@
 import os
 import ffmpeg
-from IO_functions import getInput
+from IOFunctions import getInput
 from menu import menu
 from colorPrint import *
 
-def get_codecs(options = ['Get Codecs of a Video File','Get Codecs of an Audio File']):
+def getCodecs(options = ['Get Codecs of a Video File','Get Codecs of an Audio File']):
     while True:
         ch = menu('Select an option',options)
         if ch == len(options)+1:

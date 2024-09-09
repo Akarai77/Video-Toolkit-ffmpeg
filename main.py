@@ -1,13 +1,14 @@
-from convert import handle_convert
-from ytconvert import ytconvert
-from extract import handle_extract
-from get_codecs import get_codecs
+from convert import handleConvert
+from ytConvert import ytConvert
+from extract import handleExtract
+from getCodecs import getCodecs
 from colorPrint import *
 from menu import menu
-from change_codecs import change_codecs
-from clips import handle_clips
+from changeCodecs import changeCodecs
+from clips import handleClips
+from changeAspectRatio import changeAspectRatio
 
-options = ['YT Video Conversion','Convert','Extract','Get Audio and Video Codecs','Change Audio and video codecs','Turn Video into Clips']
+options = ['YT Video Conversion','Convert','Extract','Get Audio and Video Codecs','Change Audio and video codecs','Turn Video into Clips','Change Aspect Ratio']
 
 while True:
     choice = menu(f"\t\tWELCOME!\n{'-'*50}\nWhat would you like to do today?",options)
@@ -17,20 +18,20 @@ while True:
         continue
     match choice:
         case 1 : 
-            msg,output = ytconvert()
+            msg,output = ytConvert()
             if msg != -1 and output != -1:
                 success(f"{msg}{output}") 
             else:
                 continue
         case 2 : 
-            handle_convert()
+            handleConvert()
             
         case 3:
-            handle_extract()
+            handleExtract()
                 
         case 4 :
             try:
-                _,cds = get_codecs()
+                _,cds = getCodecs()
                 if _ != -1 and cds != -1:
                     success(f"Video Codec: {cds[0]}",end="")
                     if cds[1]:
@@ -39,12 +40,15 @@ while True:
                 error("An Error Occured!")
             
         case 5:
-            change_codecs()
+            changeCodecs()
         
         case 6:
-            handle_clips()
+            handleClips()
+            
+        case 7:
+            changeAspectRatio()
         
-        case 7 : 
+        case 8: 
             exit()
             
         case default: 

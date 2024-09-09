@@ -1,14 +1,14 @@
 import os
 import ffmpeg
-from get_codecs import get_codecs
+from getCodecs import getCodecs
 from colorPrint import *
 from menu import menu
-from IO_functions import getExtensions
-from IO_functions import manageOutput
+from IOFunctions import getExtensions
+from IOFunctions import manageOutput
 
 directory = "."
 
-def change_video_codec(file,cvc,choice,codec_values):
+def changeVideoCodec(file,cvc,choice,codec_values):
     selected_codec = codec_values[choice - 1]
     output_file_dir,output_file = manageOutput()
     if output_file_dir == -1 and output_file == -1:
@@ -25,7 +25,7 @@ def change_video_codec(file,cvc,choice,codec_values):
         print(f"\nUnexpected Error: {str(e)}\n")
         
 
-def change_audio_codec(file,cac,choice,codec_values):
+def changeAudioCodec(file,cac,choice,codec_values):
     selected_codec = codec_values[choice - 1]
     output_file_dir,output_file = manageOutput()
     if output_file_dir == -1 and output_file == -1:
@@ -41,7 +41,7 @@ def change_audio_codec(file,cac,choice,codec_values):
     except Exception as e:
         print(f"\nUnexpected Error: {str(e)}\n")
 
-def change_both(file,cds,choice1,video_codec_values,choice2,audio_codec_values):
+def changeBoth(file,cds,choice1,video_codec_values,choice2,audio_codec_values):
     selected_video_codec = video_codec_values[choice1 - 1]
     selected_audio_codec = audio_codec_values[choice2-1]
     output_file_dir,output_file = manageOutput()
@@ -58,8 +58,8 @@ def change_both(file,cds,choice1,video_codec_values,choice2,audio_codec_values):
     except Exception as e:
         print(f"\nUnexpected Error: {str(e)}\n")
 
-def change_codecs():
-    file, cds = get_codecs(['Change Codecs of a Video File', 'Change Codecs of an Audio File'])
+def changeCodecs():
+    file, cds = getCodecs(['Change Codecs of a Video File', 'Change Codecs of an Audio File'])
     if file == -1 and cds == -1:
         return
     if os.path.splitext(file)[1] in getExtensions('Video'):
@@ -118,7 +118,7 @@ def change_codecs():
                         break
                     elif ch2 == -1:
                         continue
-                    if change_video_codec(file,cds[0],ch2,video_codec_values) == -1:
+                    if changeVideoCodec(file,cds[0],ch2,video_codec_values) == -1:
                         continue
                     else:
                         return
@@ -129,7 +129,7 @@ def change_codecs():
                         break
                     elif ch2 == -1:
                         continue
-                    if change_audio_codec(file,cds[1],ch2,audio_codec_values) == -1:
+                    if changeAudioCodec(file,cds[1],ch2,audio_codec_values) == -1:
                         continue
                     else:
                         return
@@ -146,7 +146,7 @@ def change_codecs():
                             break
                         elif ch3 == -1:
                             continue
-                        if change_both(file,cds,ch2,video_codec_values,ch3,audio_codec_values) == 1:
+                        if changeBoth(file,cds,ch2,video_codec_values,ch3,audio_codec_values) == 1:
                             continue
                         else:
                             return
@@ -159,7 +159,7 @@ def change_codecs():
                         break
                     elif ch2 == -1:
                         continue
-                    if change_audio_codec(file,cds[0],ch2,audio_codec_values) == -1:
+                    if changeAudioCodec(file,cds[0],ch2,audio_codec_values) == -1:
                         continue
                     else:
                         return
