@@ -8,6 +8,10 @@ from core.IOFunctions import getInput
 from core.changeCodecs import changeCodecs
 from core.clips import handleClips
 from core.changeAspectRatio import changeAspectRatio
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 options = [
     'Set Working Directory',
@@ -19,7 +23,7 @@ options = [
     'Turn Video into Clips',
     'Change Aspect Ratio'
 ]
-wrking_dir = '.'
+wrking_dir = os.getenv('WORKING_DIR','.')
 
 while True:
     choice = menu(
