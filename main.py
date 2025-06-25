@@ -10,8 +10,17 @@ from core.clips import handleClips
 from core.changeAspectRatio import changeAspectRatio
 from dotenv import load_dotenv
 import os
+import sys
+import os
 
-load_dotenv()
+if getattr(sys, 'frozen', False):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.dirname(__file__)
+
+env_path = os.path.join(base_path, '.env')
+print(env_path)
+load_dotenv(dotenv_path=env_path)
 
 options = [
     'Set Working Directory',

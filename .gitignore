@@ -1,2 +1,7 @@
-__pycache__
-.env
+*
+!core/
+!main.py
+!LICENSE
+!requirements.txt
+!README.md
+!icon.ico
