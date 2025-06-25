@@ -1,5 +1,3 @@
----
-
 # Video-Toolkit-ffmpeg
 
 **Video-Toolkit-ffmpeg** is a powerful and versatile command-line application designed to manage all your video and audio processing needs from a single unified interface. The toolkit supports downloading, clipping, converting, extracting, and codec management of multimedia files, all accessible via a comprehensive **main menu**.
